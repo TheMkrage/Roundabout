@@ -14,7 +14,7 @@ extension TagButton {
     func setSelected() {
         var options = ButtonOptions(
             layerColor: UIColor.init(named: "health")!, // layer Color
-            layerRadius: 9.0, // layer Radius
+            layerRadius: 12.0, // layer Radius
             layerWidth: 1.0, // layer Width
             tagTitleColor: UIColor.white, // title Color
             tagFont: UIFont(name: "HelveticaNeue-Light", size: 16.0)!, // Font
@@ -29,7 +29,7 @@ extension TagButton {
     
     static var unselectedOptions = ButtonOptions(
         layerColor: UIColor.init(named: "tag")!, // layer Color
-        layerRadius: 9.0, // layer Radius
+        layerRadius: 12.0, // layer Radius
         layerWidth: 1.0, // layer Width
         tagTitleColor: UIColor.white,
         tagFont: UIFont(name: "HelveticaNeue-Light", size: 16.0)!,
@@ -110,7 +110,25 @@ extension DesignViewController: TagsDelegate{
     
     // Last Tag Touch Action
     func tagsLastTagAction(_ tagsView: TagsView, tagButton: TagButton) {
+        let alert = UIAlertController(title: "What are you interested in?", message: "We will factor this into creating your jog!", preferredStyle: .alert)
+        alert.addTextField { (textField:UITextField) in
+            textField.placeholder = "Coffee, Reading, etc"
+        }
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { (action:UIAlertAction) in
+            guard let text = alert.textFields?.first?.text else {
+                return
+            }
+            self.tags.append(text)
+            self.selectedTags.append(text)
+            
+            let button = TagButton()
+            button.setSelected()
+            button.setTitle(text, for: .normal)
+            self.tagsView.append(button)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
+        self.present(alert, animated: true, completion: nil)
     }
     
     // TagsView Change Height

@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "958A15EDE3B8176B2E46151D51284109"
-               BlueprintName = "Pods-Roundabout"
+               BlueprintIdentifier = "C41C1C07B6FC8CF3158B3D8D73569A4C"
+               BlueprintName = "Presentr"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "Pods-Roundabout.framework">
+               BuildableName = "Presentr.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
