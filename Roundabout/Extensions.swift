@@ -8,6 +8,41 @@
 
 import UIKit
 import CoreLocation
+import Tags
+
+extension TagButton {
+    func setSelected() {
+        var options = ButtonOptions(
+            layerColor: UIColor.init(named: "health")!, // layer Color
+            layerRadius: 12.0, // layer Radius
+            layerWidth: 1.0, // layer Width
+            tagTitleColor: UIColor.white, // title Color
+            tagFont: UIFont(name: "HelveticaNeue", size: 16.0)!, // Font
+            tagBackgroundColor: UIColor.init(named: "health")!, // Background Color
+            lineBreakMode: NSLineBreakMode.byTruncatingMiddle //break Mode
+        )
+        options.paddingHorizontal = 12.0
+        options.paddingVertical = 7.0
+        
+        setEntity(options)
+    }
+    
+    static var unselectedOptions = ButtonOptions(
+        layerColor: UIColor.init(named: "tag")!, // layer Color
+        layerRadius: 12.0, // layer Radius
+        layerWidth: 1.0, // layer Width
+        tagTitleColor: UIColor.white,
+        tagFont: UIFont(name: "HelveticaNeue", size: 16.0)!,
+        tagBackgroundColor: UIColor.init(named: "tag")!, // Background Color
+        lineBreakMode: NSLineBreakMode.byCharWrapping //break Mode,
+    )
+    
+    func setUnselected() {
+        TagButton.unselectedOptions.paddingHorizontal = 12.0
+        TagButton.unselectedOptions.paddingVertical = 7.0
+        setEntity(TagButton.unselectedOptions)
+    }
+}
 
 extension Int {
     var degreesToRadians: Double { return Double(self) * .pi / 180 }

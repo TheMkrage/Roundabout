@@ -10,45 +10,29 @@ import UIKit
 import Tags
 import Anchorage
 
-extension TagButton {
-    func setSelected() {
-        var options = ButtonOptions(
-            layerColor: UIColor.init(named: "health")!, // layer Color
-            layerRadius: 12.0, // layer Radius
-            layerWidth: 1.0, // layer Width
-            tagTitleColor: UIColor.white, // title Color
-            tagFont: UIFont(name: "HelveticaNeue-Light", size: 16.0)!, // Font
-            tagBackgroundColor: UIColor.init(named: "health")!, // Background Color
-            lineBreakMode: NSLineBreakMode.byTruncatingMiddle //break Mode
-        )
-        options.paddingHorizontal = 12.0
-        options.paddingVertical = 7.0
-
-        setEntity(options)
-    }
-    
-    static var unselectedOptions = ButtonOptions(
-        layerColor: UIColor.init(named: "tag")!, // layer Color
-        layerRadius: 12.0, // layer Radius
-        layerWidth: 1.0, // layer Width
-        tagTitleColor: UIColor.white,
-        tagFont: UIFont(name: "HelveticaNeue-Light", size: 16.0)!,
-        tagBackgroundColor: UIColor.init(named: "tag")!, // Background Color
-        lineBreakMode: NSLineBreakMode.byCharWrapping //break Mode,
-    )
-    
-    func setUnselected() {
-        TagButton.unselectedOptions.paddingHorizontal = 12.0
-        TagButton.unselectedOptions.paddingVertical = 7.0
-        setEntity(TagButton.unselectedOptions)
-    }
-}
-
 class DesignViewController: UIViewController {
 
     lazy var topBar: UIView = {
         let t = UIView()
+        t.backgroundColor = UIColor.init(named: "bg")
+        
+        let label = UILabel()
+        label.text = "Design your Jog"
+        label.textColor = UIColor.init(named: "textColor")
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
+        t.addSubview(label)
+        label.centerXAnchor == t.centerXAnchor
+        label.bottomAnchor == t.bottomAnchor - 15
+        
         return t
+    }()
+    
+    var interestLabel: UILabel = {
+        let x = UILabel()
+        x.textColor = UIColor.gray
+        x.font = UIFont(name: "HelveticaNeue-Bold", size: 16.0)
+        x.text = "What would you like to see?"
+        return x
     }()
     
     var tags = ["Coffee", "Books", "Church", "Nature", "Statues", "Food", "Music", "Amusement Parks"]
@@ -79,13 +63,22 @@ class DesignViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(interestLabel)
         view.addSubview(tagsView)
+        view.addSubview(topBar)
         setupConstraints()
     }
     
     private func setupConstraints() {
-        tagsView.topAnchor == view.safeAreaLayoutGuide.topAnchor
-        tagsView.leadingAnchor == view.leadingAnchor + 20
+        topBar.topAnchor == view.topAnchor
+        topBar.bottomAnchor == view.safeAreaLayoutGuide.topAnchor + 50
+        topBar.horizontalAnchors == view.horizontalAnchors
+        
+        interestLabel.topAnchor == topBar.bottomAnchor + 20
+        interestLabel.leadingAnchor == view.leadingAnchor + 20
+        
+        tagsView.topAnchor == interestLabel.bottomAnchor + 7
+        tagsView.leadingAnchor == view.leadingAnchor + 15
         tagsView.trailingAnchor == view.trailingAnchor - 20
     }
 }
