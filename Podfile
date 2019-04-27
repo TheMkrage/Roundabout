@@ -11,4 +11,5 @@ target 'Roundabout' do
   pod 'ARCL'
   pod 'Anchorage'
   pod 'Alamofire'
+  pod 'Tags'
 end

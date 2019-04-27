@@ -18,6 +18,8 @@
 		7E04E555227425A700113064 /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E554227425A700113064 /* BottomBar.swift */; };
 		7E04E55822742A1A00113064 /* Waypoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E55722742A1A00113064 /* Waypoint.swift */; };
 		7E04E55A22742BBB00113064 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E55922742BBB00113064 /* Extensions.swift */; };
+		7E04E55E2274F2F200113064 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E04E55D2274F2F200113064 /* MapKit.framework */; };
+		7E04E5612274FFC900113064 /* DesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E5602274FFC900113064 /* DesignViewController.swift */; };
 		7EF23FA091CC8764014461DC /* Pods_Roundabout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF0D153D76086FA704CFBF5 /* Pods_Roundabout.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +39,8 @@
 		7E04E554227425A700113064 /* BottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBar.swift; sourceTree = "<group>"; };
 		7E04E55722742A1A00113064 /* Waypoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Waypoint.swift; sourceTree = "<group>"; };
 		7E04E55922742BBB00113064 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		7E04E55D2274F2F200113064 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		7E04E5602274FFC900113064 /* DesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignViewController.swift; sourceTree = "<group>"; };
 		DFF0D153D76086FA704CFBF5 /* Pods_Roundabout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Roundabout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -45,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E04E55E2274F2F200113064 /* MapKit.framework in Frameworks */,
 				7EF23FA091CC8764014461DC /* Pods_Roundabout.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,8 +80,8 @@
 			children = (
 				7E04E55622742A1000113064 /* Model */,
 				7E04E54C227424BC00113064 /* View */,
+				7E04E55F2274FFA800113064 /* ViewController */,
 				7E04E53A2272F47E00113064 /* AppDelegate.swift */,
-				7E04E53C2272F47E00113064 /* ViewController.swift */,
 				7E04E53E2272F47E00113064 /* Main.storyboard */,
 				7E04E5412272F48300113064 /* Assets.xcassets */,
 				7E04E5432272F48300113064 /* LaunchScreen.storyboard */,
@@ -113,9 +118,19 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		7E04E55F2274FFA800113064 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7E04E53C2272F47E00113064 /* ViewController.swift */,
+				7E04E5602274FFC900113064 /* DesignViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		91AE579D194E21A78A3C95AC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7E04E55D2274F2F200113064 /* MapKit.framework */,
 				DFF0D153D76086FA704CFBF5 /* Pods_Roundabout.framework */,
 			);
 			name = Frameworks;
@@ -164,6 +179,11 @@
 				TargetAttributes = {
 					7E04E5362272F47E00113064 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -209,12 +229,14 @@
 				"${BUILT_PRODUCTS_DIR}/ARCL/ARCL.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Anchorage/Anchorage.framework",
+				"${BUILT_PRODUCTS_DIR}/Tags/Tags.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARCL.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Anchorage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Tags.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -252,6 +274,7 @@
 				7E04E55A22742BBB00113064 /* Extensions.swift in Sources */,
 				7E04E55822742A1A00113064 /* Waypoint.swift in Sources */,
 				7E04E54E227424E100113064 /* CompanionMapView.swift in Sources */,
+				7E04E5612274FFC900113064 /* DesignViewController.swift in Sources */,
 				7E04E53B2272F47E00113064 /* AppDelegate.swift in Sources */,
 				7E04E550227424EE00113064 /* TopBar.swift in Sources */,
 			);

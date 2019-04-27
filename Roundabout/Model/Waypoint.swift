@@ -14,12 +14,14 @@ class Waypoint: Decodable {
     var latitude: CLLocationDegrees
     var longitude: CLLocationDegrees
     var altitude: CLLocationDistance
+    var percent: Double
     
-    init(name: String, latitude: CLLocationDegrees, longitude: CLLocationDegrees, altitude: CLLocationDegrees) {
+    init(name: String, latitude: CLLocationDegrees, longitude: CLLocationDegrees, altitude: CLLocationDegrees, percent: Double) {
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
         self.altitude = altitude
+        self.percent = percent
     }
 }
 

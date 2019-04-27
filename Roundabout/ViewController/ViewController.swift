@@ -18,11 +18,13 @@ class ViewController: UIViewController {
     // Views
     let topBar = TopBar()
     let bottomBar = BottomBar()
+    let sideBar = SideBar()
+    var map: CompanionMapView!
     
     var timer: Timer!
     
     let pyramidGeometry = SCNPyramid(width: 0.01, height: 0.02, length: 0.0108)
-    lazy var pyramidNode = SCNNode(geometry: self.pyramidGeometry)
+    lazy var pyramidNode = SCNNode(geometry: pyramidGeometry)
     
     var marked = CLLocation(latitude: 32.8855781716564785, longitude: -117.23935240809809)
     var lastLocation = CLLocation(latitude: 32.8855781716564785, longitude: -117.23935240809809)
@@ -35,26 +37,28 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        map = CompanionMapView()
+        
         // Table Codes
-        let exit = self.getBigBox(image: UIImage.init(named: "Tile")!)
+        let exit = getBigBox(image: UIImage.init(named: "Tile")!)
         exit.position = SCNVector3(-32, 1, -45)
-        self.sceneLocationView.scene.rootNode.addChildNode(exit)
-        let exitWaypoint = Waypoint(name: "Exit", latitude: 32.88580559622921, longitude: -117.2395439592874, altitude: 123.15)
-        self.waypoints.append(exitWaypoint)
+        sceneLocationView.scene.rootNode.addChildNode(exit)
+        let exitWaypoint = Waypoint(name: "Exit", latitude: 32.88580559622921, longitude: -117.2395439592874, altitude: 123.15, percent: 0.10)
+        waypoints.append(exitWaypoint)
         
-        let elevator = self.getBigBox(image: UIImage.init(named: "Tile")!)
+        let elevator = getBigBox(image: UIImage.init(named: "Tile")!)
         elevator.position = SCNVector3(-20, 1, -30)
-        self.sceneLocationView.scene.rootNode.addChildNode(elevator)
-        let elevatorWaypoint = Waypoint(name: "Elevator", latitude: 32.88605641907343, longitude: -117.23952412679434, altitude: 123.15)
-        self.waypoints.append(elevatorWaypoint)
+        sceneLocationView.scene.rootNode.addChildNode(elevator)
+        let elevatorWaypoint = Waypoint(name: "Elevator", latitude: 32.88605641907343, longitude: -117.23952412679434, altitude: 123.15, percent: 0.10)
+        waypoints.append(elevatorWaypoint)
         
-        let bathroom = self.getBigBox(image: UIImage.init(named: "Tile")!)
+        let bathroom = getBigBox(image: UIImage.init(named: "Tile")!)
         bathroom.position = SCNVector3(-15, 1, -40)
-        self.sceneLocationView.scene.rootNode.addChildNode(bathroom)
-        let bathroomWaypoint = Waypoint(name: "Bathroom", latitude: 32.88632847330899, longitude: -117.23952955036582, altitude: 123.15)
-        self.waypoints.append(bathroomWaypoint)
+        sceneLocationView.scene.rootNode.addChildNode(bathroom)
+        let bathroomWaypoint = Waypoint(name: "Bathroom", latitude: 32.88632847330899, longitude: -117.23952955036582, altitude: 123.15, percent: 0.10)
+        waypoints.append(bathroomWaypoint)
         
-        self.timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         sceneLocationView.run()
         
         topBar.instructionLabel.text = "Turn right on Broadway Ave"
@@ -66,16 +70,18 @@ class ViewController: UIViewController {
         view.addSubview(sceneLocationView)
         view.addSubview(topBar)
         view.addSubview(bottomBar)
+        view.addSubview(sideBar)
+        view.addSubview(map)
         
         // Make Pyramid
         let materialPyr = SCNMaterial()
         materialPyr.diffuse.contents = UIImage.init(named: "gradient")
         pyramidGeometry.materials = [materialPyr]
         
-        self.pyramidNode.position = SCNVector3Make(0, -0.08, -0.2)
-        self.sceneLocationView.pointOfView?.addChildNode(pyramidNode)
+        pyramidNode.position = SCNVector3Make(0, -0.08, -0.2)
+        sceneLocationView.pointOfView?.addChildNode(pyramidNode)
         
-        self.setupConstraints()
+        setupConstraints()
     }
     
     override func viewDidLayoutSubviews() {
@@ -83,10 +89,10 @@ class ViewController: UIViewController {
     }
     
     func setupConstraints() {
-        self.sceneLocationView.bottomAnchor == self.view.safeAreaLayoutGuide.bottomAnchor
-        self.sceneLocationView.leadingAnchor == self.view.leadingAnchor
-        self.sceneLocationView.trailingAnchor == self.view.trailingAnchor
-        self.sceneLocationView.topAnchor == self.view.topAnchor
+        sceneLocationView.bottomAnchor == view.safeAreaLayoutGuide.bottomAnchor
+        sceneLocationView.leadingAnchor == view.leadingAnchor
+        sceneLocationView.trailingAnchor == view.trailingAnchor
+        sceneLocationView.topAnchor == view.topAnchor
         
         topBar.topAnchor == view.topAnchor
         topBar.leadingAnchor == view.leadingAnchor
@@ -94,22 +100,32 @@ class ViewController: UIViewController {
         
         bottomBar.horizontalAnchors == view.horizontalAnchors
         bottomBar.bottomAnchor == view.bottomAnchor
+        
+        sideBar.leadingAnchor == view.leadingAnchor + 13
+        sideBar.topAnchor == topBar.bottomAnchor + 40
+        sideBar.bottomAnchor == bottomBar.topAnchor - 40
+        sideBar.widthAnchor == 15
+        
+        map.widthAnchor == 190
+        map.heightAnchor == 190
+        map.topAnchor == topBar.bottomAnchor + 13
+        map.trailingAnchor == view.trailingAnchor - 13
     }
     
     @objc func update() {
-        guard let currentLocation = self.sceneLocationView.currentLocation() else {
+        guard let currentLocation = sceneLocationView.currentLocation() else {
             return
         }
-        self.lastLocation = currentLocation
+        lastLocation = currentLocation
         let metersAway = lastLocation.distance(from: marked)
         
-        guard let heading = self.sceneLocationView.locationManager.heading?.degreesToRadians else {
+        guard let heading = sceneLocationView.locationManager.heading?.degreesToRadians else {
             return
         }
         
-        let radians = self.lastLocation.bearingToLocationRadian(self.marked)
+        let radians = lastLocation.bearingToLocationRadian(marked)
         
-        self.rotate(x: self.pyramidNode, rotateTo: -(radians - CGFloat(heading)))
+        rotate(x: pyramidNode, rotateTo: -(radians - CGFloat(heading)))
     }
     
     func rotate(x: SCNNode, rotateTo: CGFloat) {
@@ -118,7 +134,7 @@ class ViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+        view.endEditing(true)
     }
 }
 

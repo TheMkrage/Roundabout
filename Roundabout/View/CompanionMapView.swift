@@ -14,6 +14,7 @@ class CompanionMapView: UIView {
     var mapView: MKMapView = {
         let m = MKMapView()
         m.translatesAutoresizingMaskIntoConstraints = false
+        m.showsUserLocation = true
         return m
     }()
     
@@ -27,8 +28,77 @@ class CompanionMapView: UIView {
         return l
     }()
     
-    let locationManager = CLLocationManager()
+    var locationManager: CLLocationManager?
+    let distanceSpan: Double = 500
     
+    var didSetConstraints = false
+    
+    init() {
+        super.init(frame: .zero)
+        initialize()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initialize()
+    }
+    
+    private func initialize() {
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        requestLocationAccess()
+        addSubview(mapView)
+        
+        let location = CLLocationCoordinate2D(latitude: 9.6247279999999993,longitude: 46.170966100000001)
+        
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let region = MKCoordinateRegion(center: location, span: span)
+        mapView.setRegion(region, animated: false)
+        
+        mapView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        mapView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        mapView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        mapView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        
+        let arrayOfLatlong = [
+            [34.106083, -117.710472],
+            [34.105336, -117.713148],
+            [34.105372, -117.710123],
+            [34.106083, -117.710472]
+        ]
+        var coordinateArray = [CLLocationCoordinate2D]()
+        for obj in arrayOfLatlong {
+            let lat1 = obj[0]
+            let lon1 = obj[1]
+            let coordinate = CLLocationCoordinate2DMake(lat1, lon1);
+            coordinateArray.append(coordinate)
+        }
+        polyLine = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+        mapView.visibleMapRect = polyLine.boundingMapRect
+        //If you want the route to be visible
+        mapView.addOverlay(polyLine)
+        
+        locationManager = CLLocationManager()
+        if let locationManager = self.locationManager {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            locationManager.requestAlwaysAuthorization()
+            locationManager.distanceFilter = 50
+            locationManager.startUpdatingLocation()
+        }
+
+    }
+    
+    override func updateConstraints() {
+        defer {
+            super.updateConstraints()
+        }
+        guard !didSetConstraints else {
+            return
+        }
+        didSetConstraints = true
+        
+    }
     func requestLocationAccess() {
         let status = CLLocationManager.authorizationStatus()
         
@@ -40,42 +110,23 @@ class CompanionMapView: UIView {
             print("location access denied")
             
         default:
-            locationManager.requestWhenInUseAuthorization()
+            locationManager?.requestWhenInUseAuthorization()
         }
+    }
+}
+
+extension CompanionMapView: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations)
+        guard let newLocation = locations.first else {
+            return
+        }
+        let region = MKCoordinateRegion(center: newLocation.coordinate, latitudinalMeters: self.distanceSpan, longitudinalMeters: self.distanceSpan)
+        mapView.setRegion(region, animated: true)
+        mapView.showsUserLocation = true
     }
     
-    func initialize() {
-        requestLocationAccess()
-        addSubview(mapView)
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         
-        let location = CLLocationCoordinate2D(latitude: 9.6247279999999993,longitude: 46.170966100000001)
-        
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        let region = MKCoordinateRegion(center: location, span: span)
-        mapView.setRegion(region, animated: true)
-        
-        mapView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        mapView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        mapView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        mapView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        
-        let arrayOfLatlong = [
-            [9.6247279999999993, 46.170966100000001],
-            [9.6244014, 46.171050399999999],
-            [9.6240834999999993, 46.171273900000003],
-            [9.6240570000000005, 46.171284999999997]
-        ]
-        var coordinateArray = [CLLocationCoordinate2D]()
-        for obj in arrayOfLatlong {
-            let lat1 = obj[0]
-            let lon1 = obj[1]
-            let coordinate = CLLocationCoordinate2DMake(lat1, lon1);
-            coordinateArray.append(coordinate)
-        }
-        polyLine = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
-        //mapView.visibleMapRect = polyLine.boundingMapRect
-        //If you want the route to be visible
-        //mapView.addOverlay(polyLine)
     }
-
 }

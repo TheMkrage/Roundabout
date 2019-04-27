@@ -2,23 +2,27 @@ PODS:
   - Alamofire (4.8.0)
   - Anchorage (4.3)
   - ARCL (1.0.4)
+  - Tags (0.2.1)
 
 DEPENDENCIES:
   - Alamofire
   - Anchorage
   - ARCL
+  - Tags
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - Anchorage
     - ARCL
+    - Tags
 
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
   Anchorage: 21a98675245188427f0bcea21404d42a824a766f
   ARCL: 5fd2b0d7aabf91f15dbc0e8c510b25516b8a755a
+  Tags: 2141a7a9ebbc5b00be4e435dff92b818ed34de27
 
-PODFILE CHECKSUM: dba9d46c8661d5a7569f2ca3493c0b433f26c8b2
+PODFILE CHECKSUM: d9eebd25fa3d137064a8019f3ca984d50e846861
 
 COCOAPODS: 1.5.2
