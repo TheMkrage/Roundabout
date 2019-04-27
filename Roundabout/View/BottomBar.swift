@@ -7,15 +7,74 @@
 //
 
 import UIKit
+import Anchorage
 
 class BottomBar: UIView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    
+    var destinationLabel: UILabel = {
+        let l = UILabel()
+        l.font = UIFont(name: "HelveticaNeue-Medium", size: 20.0)
+        l.textColor = UIColor.init(named: "textColor")
+        return l
+    }()
+    
+    var timeLabel: UILabel = {
+        let l = UILabel()
+        l.textColor = UIColor.init(named: "textColor")
+        l.font = UIFont(name: "HelveticaNeue-Light", size: 14.0)
+        return l
+    }()
+    
+    let closeButton: UIButton = {
+        let b = UIButton()
+        b.setTitleColor(.black, for: .normal)
+        b.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 14.0)
+        b.setTitle("X", for: .normal)
+        return b
+    }()
+    
+    var didSetConstraints = false
+    
+    init() {
+        super.init(frame: .zero)
+        initialize()
     }
-    */
-
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initialize()
+    }
+    
+    private func initialize() {
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = UIColor.init(named: "bg")?.withAlphaComponent(0.65)
+        
+        clipsToBounds = true
+        layer.cornerRadius = 10
+        layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+        
+        addSubview(destinationLabel)
+        addSubview(timeLabel)
+        addSubview(closeButton)
+    }
+    
+    override func updateConstraints() {
+        defer {
+            super.updateConstraints()
+        }
+        guard !didSetConstraints else {
+            return
+        }
+        didSetConstraints = true
+        
+        destinationLabel.topAnchor == topAnchor + 8
+        destinationLabel.leadingAnchor == leadingAnchor + 40
+        
+        closeButton.centerYAnchor == destinationLabel.centerYAnchor
+        closeButton.leadingAnchor == leadingAnchor + 6
+        
+        timeLabel.topAnchor == destinationLabel.bottomAnchor + 2
+        timeLabel.leadingAnchor == destinationLabel.leadingAnchor
+        timeLabel.bottomAnchor == safeAreaLayoutGuide.bottomAnchor - 5
+    }
 }

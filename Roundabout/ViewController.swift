@@ -15,16 +15,19 @@ import Anchorage
 
 class ViewController: UIViewController {
     
+    // Views
+    let topBar = TopBar()
+    let bottomBar = BottomBar()
+    
     var timer: Timer!
     
-    let pyramidGeometry = SCNPyramid(width: 0.01, height: 0.04, length: 0.015)
+    let pyramidGeometry = SCNPyramid(width: 0.01, height: 0.02, length: 0.0108)
     lazy var pyramidNode = SCNNode(geometry: self.pyramidGeometry)
     
     var marked = CLLocation(latitude: 32.8855781716564785, longitude: -117.23935240809809)
     var lastLocation = CLLocation(latitude: 32.8855781716564785, longitude: -117.23935240809809)
     var lastX = 0.0
     
-    let waypointTypes = ["Bathroom", "Exit", "Health Office", "Fire Alarm", "Stairs", "Elevator", "Ramp", "Fire Extinguisher", "Water Fountain"]
     var waypoints = [Waypoint]()
     
     var sceneLocationView = SceneLocationView()
@@ -53,14 +56,23 @@ class ViewController: UIViewController {
         
         self.timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         sceneLocationView.run()
+        
+        topBar.instructionLabel.text = "Turn right on Broadway Ave"
+        topBar.distanceLabel.text = "69 Feet"
+        
+        bottomBar.destinationLabel.text = "Joe's Magic Coffee"
+        bottomBar.timeLabel.text = "About 10 min away"
+        
         view.addSubview(sceneLocationView)
+        view.addSubview(topBar)
+        view.addSubview(bottomBar)
         
         // Make Pyramid
         let materialPyr = SCNMaterial()
         materialPyr.diffuse.contents = UIImage.init(named: "gradient")
         pyramidGeometry.materials = [materialPyr]
         
-        self.pyramidNode.position = SCNVector3Make(0, -0.1, -0.2)
+        self.pyramidNode.position = SCNVector3Make(0, -0.08, -0.2)
         self.sceneLocationView.pointOfView?.addChildNode(pyramidNode)
         
         self.setupConstraints()
@@ -75,6 +87,13 @@ class ViewController: UIViewController {
         self.sceneLocationView.leadingAnchor == self.view.leadingAnchor
         self.sceneLocationView.trailingAnchor == self.view.trailingAnchor
         self.sceneLocationView.topAnchor == self.view.topAnchor
+        
+        topBar.topAnchor == view.topAnchor
+        topBar.leadingAnchor == view.leadingAnchor
+        topBar.trailingAnchor == view.trailingAnchor
+        
+        bottomBar.horizontalAnchors == view.horizontalAnchors
+        bottomBar.bottomAnchor == view.bottomAnchor
     }
     
     @objc func update() {
