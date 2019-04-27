@@ -1,0 +1,6 @@
+framework module Pods_Roundabout {
+  umbrella header "Pods-Roundabout-umbrella.h"
+
+  export *
+  module * { export * }
+}
