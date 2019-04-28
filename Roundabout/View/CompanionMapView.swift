@@ -30,17 +30,35 @@ class CompanionMapView: UIView {
     
     var locationManager: CLLocationManager?
     let distanceSpan: Double = 500
+    var waypoints: [Waypoint]
     
     var didSetConstraints = false
     
-    init() {
+    init(waypoints: [Waypoint]) {
+        self.waypoints = waypoints
         super.init(frame: .zero)
         initialize()
     }
     
     required init?(coder aDecoder: NSCoder) {
+        self.waypoints = []
         super.init(coder: aDecoder)
         initialize()
+    }
+    
+    func requestLocationAccess() {
+        let status = CLLocationManager.authorizationStatus()
+        
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            return
+            
+        case .denied, .restricted:
+            print("location access denied")
+            
+        default:
+            locationManager?.requestWhenInUseAuthorization()
+        }
     }
     
     private func initialize() {
@@ -86,7 +104,6 @@ class CompanionMapView: UIView {
             locationManager.distanceFilter = 50
             locationManager.startUpdatingLocation()
         }
-
     }
     
     override func updateConstraints() {
@@ -98,20 +115,6 @@ class CompanionMapView: UIView {
         }
         didSetConstraints = true
         
-    }
-    func requestLocationAccess() {
-        let status = CLLocationManager.authorizationStatus()
-        
-        switch status {
-        case .authorizedAlways, .authorizedWhenInUse:
-            return
-            
-        case .denied, .restricted:
-            print("location access denied")
-            
-        default:
-            locationManager?.requestWhenInUseAuthorization()
-        }
     }
 }
 

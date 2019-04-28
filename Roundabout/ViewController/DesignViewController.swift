@@ -11,6 +11,7 @@ import Tags
 import Anchorage
 import SCSDKLoginKit
 import SDWebImage
+import CoreLocation
 
 class DesignViewController: UIViewController {
 
@@ -61,7 +62,7 @@ class DesignViewController: UIViewController {
         return t
     }()
     
-    var distance: Double = 2.0 {
+    var distance: Double = 4.5 {
         didSet {
             distanceLabel.text = "\(distance.rounded(toPlaces: 2)) mi"
         }
@@ -118,9 +119,21 @@ class DesignViewController: UIViewController {
         return x
     }()
     
+    var locationManager: CLLocationManager?
+    var lastLocation: CLLocation!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        locationManager = CLLocationManager()
+        if let locationManager = self.locationManager {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            locationManager.requestAlwaysAuthorization()
+            locationManager.distanceFilter = 50
+            locationManager.startUpdatingLocation()
+        }
         
         view.addSubview(interestLabel)
         view.addSubview(tagsView)
@@ -177,23 +190,34 @@ class DesignViewController: UIViewController {
         distance = 2.0 + (Double(sender.value) * 5.0)
     }
     
+    func requestLocationAccess() {
+        let status = CLLocationManager.authorizationStatus()
+        
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            return
+            
+        case .denied, .restricted:
+            print("location access denied")
+            
+        default:
+            locationManager?.requestWhenInUseAuthorization()
+        }
+    }
+    
     @objc func generate(_ sender: UIButton) {
         waypoints = []
-        let w1 = Waypoint(name: "KRager", latitude: 0, longitude: 0, altitude: 0, percent: 0)
-        let w2 = Waypoint(name: "Alfredo Coffee", latitude: 0, longitude: 0, altitude: 0, percent: 0)
-        let w3 = Waypoint(name: "KRafdasfa dfsa fdsa fds fsd f sdfdsaf ger", latitude: 0, longitude: 0, altitude: 0, percent: 0)
-        waypoints.append(w1)
-        waypoints.append(w2)
-        waypoints.append(w3)
+        WaypointStore.shared.get(categories: selectedTags, startingPoint: lastLocation.coordinate, distance: distance) { (waypoints) in
+            self.waypoints = waypoints
+            self.tableView.reloadData()
+        }
         
         submitButton.animateFromBottom(superView: self.view)
-        
-        tableView.reloadData()
     }
     
     @objc func start(_ sender: UIButton) {
-        
         let vc = MapViewController()
+        vc.waypoints = waypoints
         show(vc, sender: self)
     }
 }
@@ -261,5 +285,11 @@ extension DesignViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60.0
+    }
+}
+
+extension DesignViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        lastLocation = locations.first
     }
 }

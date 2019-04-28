@@ -38,25 +38,36 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        map = CompanionMapView()
+        map = CompanionMapView(waypoints: waypoints)
+        
+        // add the points along the path too the map
+        for waypoint in waypoints {
+            let location = CLLocation(latitude: waypoint.latitude, longitude: waypoint.longitude)
+            let annotationNode = LocationNode.init(location: location)
+            let node = self.getBigBox(image: UIImage(named: "Tile")!)
+            
+            annotationNode.addChildNode(node)
+            
+            self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: annotationNode)
+        }
         
         // Table Codes
         let exit = getBigBox(image: UIImage.init(named: "Tile")!)
         exit.position = SCNVector3(-32, 1, -45)
         sceneLocationView.scene.rootNode.addChildNode(exit)
-        let exitWaypoint = Waypoint(name: "Exit", latitude: 32.88580559622921, longitude: -117.2395439592874, altitude: 123.15, percent: 0.10)
+        let exitWaypoint = Waypoint(name: "Exit", latitude: 32.88580559622921, longitude: -117.2395439592874, percent: 0.10)
         waypoints.append(exitWaypoint)
         
         let elevator = getBigBox(image: UIImage.init(named: "Tile")!)
         elevator.position = SCNVector3(-20, 1, -30)
         sceneLocationView.scene.rootNode.addChildNode(elevator)
-        let elevatorWaypoint = Waypoint(name: "Elevator", latitude: 32.88605641907343, longitude: -117.23952412679434, altitude: 123.15, percent: 0.10)
+        let elevatorWaypoint = Waypoint(name: "Elevator", latitude: 32.88605641907343, longitude: -117.23952412679434, percent: 0.10)
         waypoints.append(elevatorWaypoint)
         
         let bathroom = getBigBox(image: UIImage.init(named: "Tile")!)
         bathroom.position = SCNVector3(-15, 1, -40)
         sceneLocationView.scene.rootNode.addChildNode(bathroom)
-        let bathroomWaypoint = Waypoint(name: "Bathroom", latitude: 32.88632847330899, longitude: -117.23952955036582, altitude: 123.15, percent: 0.10)
+        let bathroomWaypoint = Waypoint(name: "Bathroom", latitude: 32.88632847330899, longitude: -117.23952955036582, percent: 0.10)
         waypoints.append(bathroomWaypoint)
         
         timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(update), userInfo: nil, repeats: true)
