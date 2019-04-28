@@ -7,11 +7,37 @@
 //
 
 import UIKit
+import SCSDKLoginKit
 
 class SideBar: UIView {
     
     var percent: CGFloat = 0.20
     //var points = [Waypoint]()
+
+    lazy var bitmoji: UIImageView = {
+        let u = UIImageView()
+        let graphQLQuery = "{me{displayName, bitmoji{avatar}}}"
+        
+        let variables = ["page": "bitmoji"]
+        
+        SCSDKLoginClient.fetchUserData(withQuery: graphQLQuery, variables: variables, success: { (resources: [AnyHashable: Any]?) in
+            guard let resources = resources,
+                let data = resources["data"] as? [String: Any],
+                let me = data["me"] as? [String: Any] else { return }
+            
+            let displayName = me["displayName"] as? String
+            var bitmojiAvatarUrl: String?
+            if let bitmoji = me["bitmoji"] as? [String: Any] {
+                bitmojiAvatarUrl = (bitmoji["avatar"] as! String)
+                
+                let url = URL(string: bitmojiAvatarUrl!)
+                u.sd_setImage(with: url, completed: nil)
+            }
+        }, failure: { (error: Error?, isUserLoggedOut: Bool) in
+            // handle error
+        })
+        return u
+    }()
 
     var didSetConstraints = false
     
@@ -27,14 +53,13 @@ class SideBar: UIView {
     
     private func initialize() {
         translatesAutoresizingMaskIntoConstraints = false
-        clipsToBounds = true
         
-        backgroundColor = UIColor.init(named: "bg")
+        backgroundColor = .clear
+        addSubview(bitmoji)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        print(frame.width/2.0)
         layer.cornerRadius = frame.width / 2.0
     }
     
@@ -52,10 +77,18 @@ class SideBar: UIView {
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
-        //UIBezierPath()
+        
+        let percentHeight = rect.height * percent
+        let height = rect.height - percentHeight
+        let bitmojiWidth: CGFloat = 50.0
+        let bitmojiX: CGFloat = rect.midX - CGFloat(bitmojiWidth/2.0)
+        bitmoji.frame = CGRect(x: bitmojiX, y: height - CGFloat(bitmojiWidth/2.0), width: bitmojiWidth, height: bitmojiWidth)
         
         // draw filled portion
-        let percentHeight = rect.height * percent
+        let bgPath = UIBezierPath(roundedRect: rect, cornerRadius: layer.cornerRadius)
+        UIColor.init(named: "bg")?.setFill()
+        bgPath.fill()
+        
         let path = UIBezierPath(roundedRect: CGRect(x: 0.0, y: rect.height - percentHeight, width: rect.width, height: percentHeight), cornerRadius: layer.cornerRadius)
         UIColor.init(named: "health")?.setFill()
         path.fill()

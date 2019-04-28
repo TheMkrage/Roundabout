@@ -12,6 +12,7 @@ import ARCL
 import CoreLocation
 import ARKit
 import Anchorage
+import SCSDKLoginKit
 
 class ViewController: UIViewController {
     
@@ -66,6 +67,8 @@ class ViewController: UIViewController {
         
         bottomBar.destinationLabel.text = "Joe's Magic Coffee"
         bottomBar.timeLabel.text = "About 10 min away"
+        
+        view.backgroundColor = .white
         
         view.addSubview(sceneLocationView)
         view.addSubview(topBar)

@@ -5,6 +5,9 @@ PODS:
   - PINCache (2.3)
   - PINOperation (1.1.1)
   - Presentr (1.9)
+  - SDWebImage (4.4.3):
+    - SDWebImage/Core (= 4.4.3)
+  - SDWebImage/Core (4.4.3)
   - SnapSDK (1.2.0):
     - SnapSDK/SCSDKBitmojiKit (= 1.2.0)
     - SnapSDK/SCSDKCreativeKit (= 1.2.0)
@@ -21,6 +24,7 @@ DEPENDENCIES:
   - Anchorage
   - ARCL
   - Presentr
+  - SDWebImage
   - SnapSDK
   - Tags
 
@@ -32,6 +36,7 @@ SPEC REPOS:
     - PINCache
     - PINOperation
     - Presentr
+    - SDWebImage
     - SnapSDK
     - Tags
 
@@ -42,9 +47,10 @@ SPEC CHECKSUMS:
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
   PINOperation: a6219e6fc9db9c269eb7a7b871ac193bcf400aac
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
+  SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
   SnapSDK: ab99c79e619067da4ed60c98ea5a04a288b83dc0
   Tags: 2141a7a9ebbc5b00be4e435dff92b818ed34de27
 
-PODFILE CHECKSUM: fcb2094e0d801fc2b9b8973b8e6b019bd72592df
+PODFILE CHECKSUM: b16638cbdb78b5e4cb828189a194ec4d49d48b47
 
 COCOAPODS: 1.5.2

@@ -14,4 +14,5 @@ target 'Roundabout' do
   pod 'Tags'
   pod 'Presentr'
   pod 'SnapSDK'
+  pod 'SDWebImage'
 end
