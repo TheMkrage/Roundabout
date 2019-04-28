@@ -11,10 +11,11 @@ import MapKit
 
 class CompanionMapView: UIView {
 
-    var mapView: MKMapView = {
+    lazy var mapView: MKMapView = {
         let m = MKMapView()
         m.translatesAutoresizingMaskIntoConstraints = false
         m.showsUserLocation = true
+        m.delegate = self
         return m
     }()
     
@@ -29,7 +30,7 @@ class CompanionMapView: UIView {
     }()
     
     var locationManager: CLLocationManager?
-    let distanceSpan: Double = 500
+    let distanceSpan: Double = 1500
     var waypoints: [Waypoint]
     
     var didSetConstraints = false
@@ -69,7 +70,7 @@ class CompanionMapView: UIView {
         
         let location = CLLocationCoordinate2D(latitude: 9.6247279999999993,longitude: 46.170966100000001)
         
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         let region = MKCoordinateRegion(center: location, span: span)
         mapView.setRegion(region, animated: false)
         
@@ -78,12 +79,17 @@ class CompanionMapView: UIView {
         mapView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         mapView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
-        let arrayOfLatlong = [
-            [34.106083, -117.710472],
-            [34.105336, -117.713148],
-            [34.105372, -117.710123],
-            [34.106083, -117.710472]
-        ]
+        var arrayOfLatlong = [[Double]]()
+        for waypoint in waypoints {
+            arrayOfLatlong.append([waypoint.latitude, waypoint.longitude])
+            
+            let annotation = MKPointAnnotation()
+            let centerCoordinate = CLLocationCoordinate2D(latitude: waypoint.latitude, longitude: waypoint.longitude)
+            annotation.coordinate = centerCoordinate
+            annotation.title = waypoint.name
+            mapView.addAnnotation(annotation)
+        }
+        
         var coordinateArray = [CLLocationCoordinate2D]()
         for obj in arrayOfLatlong {
             let lat1 = obj[0]
@@ -91,10 +97,25 @@ class CompanionMapView: UIView {
             let coordinate = CLLocationCoordinate2DMake(lat1, lon1);
             coordinateArray.append(coordinate)
         }
-        polyLine = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
-        mapView.visibleMapRect = polyLine.boundingMapRect
-        //If you want the route to be visible
-        mapView.addOverlay(polyLine)
+        
+        for i in 0..<coordinateArray.count - 1 {
+            let src = coordinateArray[i]
+            let dst = coordinateArray[i + 1]
+            
+            let directionRequest = MKDirections.Request()
+            directionRequest.source = MKMapItem(placemark: MKPlacemark(coordinate: src))
+            directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: dst))
+            directionRequest.requestsAlternateRoutes = false
+            directionRequest.transportType = .walking
+            
+            let direction = MKDirections(request: directionRequest)
+            direction.calculate { (response, error) in
+                guard let route = response?.routes.first else {
+                    return
+                }
+                self.mapView.addOverlay(route.polyline)
+            }
+        }
         
         locationManager = CLLocationManager()
         if let locationManager = self.locationManager {
@@ -128,8 +149,27 @@ extension CompanionMapView: CLLocationManagerDelegate {
         mapView.setRegion(region, animated: true)
         mapView.showsUserLocation = true
     }
+}
+
+extension CompanionMapView: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        print(overlay)
+        if overlay is MKPolyline {
+            let polylineRenderer = MKPolylineRenderer(overlay: overlay)
+            polylineRenderer.strokeColor = UIColor.init(named: "health")
+            polylineRenderer.lineWidth = 2.0
+            return polylineRenderer
+        }
+        return MKOverlayRenderer(overlay: overlay)
+    }
     
-    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        
+    func mapView(_ mapView: MKMapView, didAdd renderers: [MKOverlayRenderer]) {
+        print("added")
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var annotationView = MKMarkerAnnotationView()
+        annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "a")
+        return annotationView
     }
 }

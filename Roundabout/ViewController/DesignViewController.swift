@@ -38,7 +38,7 @@ class DesignViewController: UIViewController {
         return x
     }()
     
-    var tags = ["Coffee", "Books", "Church", "Nature", "Statues", "Food", "Music", "Amusement Parks"]
+    var tags = ["Library", "Church", "Park", "Cafe", "Campground", "Aquarium", "Museum", "Store" ,"Bakery"]
     var selectedTags = [String]()
     lazy var tagsView: TagsView = {
         let t = TagsView()

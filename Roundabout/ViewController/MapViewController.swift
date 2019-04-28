@@ -40,15 +40,15 @@ class MapViewController: UIViewController {
         
         map = CompanionMapView(waypoints: waypoints)
         
+        sceneLocationView.run()
         // add the points along the path too the map
         for waypoint in waypoints {
             let location = CLLocation(latitude: waypoint.latitude, longitude: waypoint.longitude)
             let annotationNode = LocationNode.init(location: location)
-            let node = self.getBigBox(image: UIImage(named: "Tile")!)
+            let node = getBigBox(image: UIImage(named: "Tile")!)
             
             annotationNode.addChildNode(node)
-            
-            self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: annotationNode)
+            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: annotationNode)
         }
         
         // Table Codes
@@ -71,7 +71,6 @@ class MapViewController: UIViewController {
         waypoints.append(bathroomWaypoint)
         
         timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(update), userInfo: nil, repeats: true)
-        sceneLocationView.run()
         
         topBar.instructionLabel.text = "Turn right on Broadway Ave"
         topBar.distanceLabel.text = "69 Feet"

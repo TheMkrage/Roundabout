@@ -21,8 +21,9 @@ class WaypointStore: NSObject {
         var dictionary = Dictionary<String, Any>()
         var categoriesString = ""
         for x in categories {
-            categoriesString.append("\(x),")
+            categoriesString.append("\(x.lowercased()),")
         }
+        
         dictionary["categories"] = categoriesString
         dictionary["distance"] = distance
         dictionary["startingPointLat"] = startingPoint.latitude
