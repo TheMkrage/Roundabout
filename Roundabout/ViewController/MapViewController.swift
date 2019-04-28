@@ -14,7 +14,7 @@ import ARKit
 import Anchorage
 import SCSDKLoginKit
 
-class ViewController: UIViewController {
+class MapViewController: UIViewController {
     
     // Views
     let topBar = TopBar()
@@ -142,7 +142,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController {
+extension MapViewController {
     
     func getBigBox(image: UIImage) -> SCNNode {
         let box = SCNBox(width: 2, height: 2, length: 2, chamferRadius: 0)
@@ -158,7 +158,7 @@ extension ViewController {
     }
 }
 
-extension ViewController: BottomBarDelegate {
+extension MapViewController: BottomBarDelegate {
     func close() {
         self.dismiss(animated: true, completion: nil)
     }

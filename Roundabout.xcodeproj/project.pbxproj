@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7E04E53B2272F47E00113064 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E53A2272F47E00113064 /* AppDelegate.swift */; };
-		7E04E53D2272F47E00113064 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E53C2272F47E00113064 /* ViewController.swift */; };
+		7E04E53D2272F47E00113064 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E53C2272F47E00113064 /* MapViewController.swift */; };
 		7E04E5402272F47E00113064 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E04E53E2272F47E00113064 /* Main.storyboard */; };
 		7E04E5422272F48300113064 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E04E5412272F48300113064 /* Assets.xcassets */; };
 		7E04E5452272F48300113064 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E04E5432272F48300113064 /* LaunchScreen.storyboard */; };
@@ -23,6 +23,8 @@
 		7E04E563227516D900113064 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E562227516D900113064 /* LoginViewController.swift */; };
 		7E04E56522751C6700113064 /* Raleway-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E04E56422751C6100113064 /* Raleway-Regular.otf */; };
 		7E04E5682275370700113064 /* OverviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E5672275370700113064 /* OverviewTableViewCell.swift */; };
+		7E04E56A2275511800113064 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E04E5692275511800113064 /* icon.png */; };
+		7E04E56C227554F200113064 /* WaypointStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E56B227554F200113064 /* WaypointStore.swift */; };
 		7EF23FA091CC8764014461DC /* Pods_Roundabout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF0D153D76086FA704CFBF5 /* Pods_Roundabout.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,7 +33,7 @@
 		6895BD8069904D4BA80FB34C /* Pods-Roundabout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roundabout.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Roundabout/Pods-Roundabout.debug.xcconfig"; sourceTree = "<group>"; };
 		7E04E5372272F47E00113064 /* Roundabout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roundabout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E04E53A2272F47E00113064 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7E04E53C2272F47E00113064 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7E04E53C2272F47E00113064 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		7E04E53F2272F47E00113064 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7E04E5412272F48300113064 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7E04E5442272F48300113064 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +49,8 @@
 		7E04E562227516D900113064 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7E04E56422751C6100113064 /* Raleway-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.otf"; sourceTree = "<group>"; };
 		7E04E5672275370700113064 /* OverviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewTableViewCell.swift; sourceTree = "<group>"; };
+		7E04E5692275511800113064 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		7E04E56B227554F200113064 /* WaypointStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaypointStore.swift; sourceTree = "<group>"; };
 		DFF0D153D76086FA704CFBF5 /* Pods_Roundabout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Roundabout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -84,6 +88,7 @@
 		7E04E5392272F47E00113064 /* Roundabout */ = {
 			isa = PBXGroup;
 			children = (
+				7E04E56B227554F200113064 /* WaypointStore.swift */,
 				7E04E566227536F300113064 /* Cells */,
 				7E04E55622742A1000113064 /* Model */,
 				7E04E54C227424BC00113064 /* View */,
@@ -94,6 +99,7 @@
 				7E04E5412272F48300113064 /* Assets.xcassets */,
 				7E04E5432272F48300113064 /* LaunchScreen.storyboard */,
 				7E04E5462272F48300113064 /* Info.plist */,
+				7E04E5692275511800113064 /* icon.png */,
 				7E04E55922742BBB00113064 /* Extensions.swift */,
 			);
 			path = Roundabout;
@@ -129,7 +135,7 @@
 		7E04E55F2274FFA800113064 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				7E04E53C2272F47E00113064 /* ViewController.swift */,
+				7E04E53C2272F47E00113064 /* MapViewController.swift */,
 				7E04E5602274FFC900113064 /* DesignViewController.swift */,
 				7E04E562227516D900113064 /* LoginViewController.swift */,
 			);
@@ -228,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E04E5452272F48300113064 /* LaunchScreen.storyboard in Resources */,
+				7E04E56A2275511800113064 /* icon.png in Resources */,
 				7E04E5422272F48300113064 /* Assets.xcassets in Resources */,
 				7E04E56522751C6700113064 /* Raleway-Regular.otf in Resources */,
 				7E04E5402272F47E00113064 /* Main.storyboard in Resources */,
@@ -304,7 +311,7 @@
 			files = (
 				7E04E5682275370700113064 /* OverviewTableViewCell.swift in Sources */,
 				7E04E5532274250A00113064 /* SideBar.swift in Sources */,
-				7E04E53D2272F47E00113064 /* ViewController.swift in Sources */,
+				7E04E53D2272F47E00113064 /* MapViewController.swift in Sources */,
 				7E04E555227425A700113064 /* BottomBar.swift in Sources */,
 				7E04E55A22742BBB00113064 /* Extensions.swift in Sources */,
 				7E04E55822742A1A00113064 /* Waypoint.swift in Sources */,
@@ -312,6 +319,7 @@
 				7E04E5612274FFC900113064 /* DesignViewController.swift in Sources */,
 				7E04E53B2272F47E00113064 /* AppDelegate.swift in Sources */,
 				7E04E563227516D900113064 /* LoginViewController.swift in Sources */,
+				7E04E56C227554F200113064 /* WaypointStore.swift in Sources */,
 				7E04E550227424EE00113064 /* TopBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

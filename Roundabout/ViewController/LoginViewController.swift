@@ -27,12 +27,19 @@ class LoginViewController: UIViewController {
         return l
     }()
     
+    var icon: UIImageView = {
+        let u = UIImageView(image: UIImage.init(named: "heart"))
+        u.contentMode = .scaleToFill
+        return u
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(named: "bg")
 
         view.addSubview(loginButton!)
         view.addSubview(titleLabel)
+        view.addSubview(icon)
         setupConstraints()
     }
     
@@ -40,6 +47,11 @@ class LoginViewController: UIViewController {
         
         titleLabel.centerXAnchor == view.centerXAnchor
         titleLabel.centerYAnchor == view.centerYAnchor - 50
+        
+        icon.widthAnchor == 100
+        icon.heightAnchor == 100
+        icon.centerXAnchor == view.centerXAnchor
+        icon.bottomAnchor == titleLabel.topAnchor - 35
         
         loginButton!.bottomAnchor == view.safeAreaLayoutGuide.bottomAnchor - 35
         loginButton!.leadingAnchor == view.leadingAnchor + 30

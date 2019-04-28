@@ -193,7 +193,7 @@ class DesignViewController: UIViewController {
     
     @objc func start(_ sender: UIButton) {
         
-        let vc = ViewController()
+        let vc = MapViewController()
         show(vc, sender: self)
     }
 }
