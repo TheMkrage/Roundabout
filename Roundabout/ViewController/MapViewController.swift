@@ -27,11 +27,23 @@ class MapViewController: UIViewController {
     let pyramidGeometry = SCNPyramid(width: 0.01, height: 0.02, length: 0.0108)
     lazy var pyramidNode = SCNNode(geometry: pyramidGeometry)
     
-    var marked = CLLocation(latitude: 32.8855781716564785, longitude: -117.23935240809809)
+    var marked: CLLocation {
+        get {
+            return CLLocation(latitude: targetedWaypoint.latitude, longitude: targetedWaypoint.longitude)
+        }
+    }
     var lastLocation = CLLocation(latitude: 32.8855781716564785, longitude: -117.23935240809809)
     var lastX = 0.0
     
+    var metersAway: CLLocationDistance = 0.0
+    
     var waypoints = [Waypoint]()
+    var targetedWaypoint: Waypoint {
+        get {
+            return waypoints[targetedWaypointIndex]
+        }
+    }
+    var targetedWaypointIndex = 1
     
     var sceneLocationView = SceneLocationView()
     
@@ -39,17 +51,8 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         
         map = CompanionMapView(waypoints: waypoints)
-        
+        map.delegate = self
         sceneLocationView.run()
-        // add the points along the path too the map
-        for waypoint in waypoints {
-            let location = CLLocation(latitude: waypoint.latitude, longitude: waypoint.longitude)
-            let annotationNode = LocationNode.init(location: location)
-            let node = getBigBox(image: UIImage(named: "Tile")!)
-            
-            annotationNode.addChildNode(node)
-            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: annotationNode)
-        }
         
         // Table Codes
         let exit = getBigBox(image: UIImage.init(named: "Tile")!)
@@ -72,12 +75,10 @@ class MapViewController: UIViewController {
         
         timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         
-        topBar.instructionLabel.text = "Turn right on Broadway Ave"
-        topBar.distanceLabel.text = "69 Feet"
+        //topBar.instructionLabel.text = "Turn right on Broadway Ave"
+        
         
         bottomBar.delegate = self
-        bottomBar.destinationLabel.text = "Joe's Magic Coffee"
-        bottomBar.timeLabel.text = "About 10 min away"
         
         view.backgroundColor = .white
         
@@ -96,6 +97,19 @@ class MapViewController: UIViewController {
         sceneLocationView.pointOfView?.addChildNode(pyramidNode)
         
         setupConstraints()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        // add the points along the path too the map
+        for waypoint in waypoints {
+            let coordinate = CLLocationCoordinate2D(latitude: waypoint.latitude, longitude: waypoint.longitude)
+            
+            let location = CLLocation(coordinate: coordinate, altitude: 356.15)
+            let annotationNode = LocationNode.init(location: location)
+            let node = getBox(image: UIImage(named: "Tile")!)
+            annotationNode.addChildNode(node)
+            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: annotationNode)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -131,14 +145,25 @@ class MapViewController: UIViewController {
             return
         }
         lastLocation = currentLocation
-        let metersAway = lastLocation.distance(from: marked)
-        
+        self.metersAway = lastLocation.distance(from: marked)
+        let ftAway = metersAway * 3.28084
+        topBar.distanceLabel.text = "\(Int(ftAway)) ft"
+        let timeAway = ftAway/528.000016896
+        bottomBar.destinationLabel.text = targetedWaypoint.name
+        bottomBar.timeLabel.text = "About \(timeAway.rounded(toPlaces: 1)) min away"
+        //print(metersAway)
         guard let heading = sceneLocationView.locationManager.heading?.degreesToRadians else {
             return
         }
         
-        let radians = lastLocation.bearingToLocationRadian(marked)
+        /*print(targetedWaypoint.name)
+        print(targetedWaypoint.latitude)
+        print(marked)
         
+        print("perceived")
+        print(heading)
+        print(lastLocation)*/
+        let radians = lastLocation.bearingToLocationRadian(marked)
         rotate(x: pyramidNode, rotateTo: -(radians - CGFloat(heading)))
     }
     
@@ -153,6 +178,18 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController {
+    func getBox(image: UIImage) -> SCNNode {
+        let box = SCNBox(width: 0.5, height: 0.5, length: 0.5, chamferRadius: 0)
+        
+        let material = SCNMaterial()
+        material.diffuse.contents = image
+        
+        let node = SCNNode()
+        node.geometry = box
+        node.geometry?.materials = [material]
+        node.position = SCNVector3(0, 1.5, 0)
+        return node
+    }
     
     func getBigBox(image: UIImage) -> SCNNode {
         let box = SCNBox(width: 2, height: 2, length: 2, chamferRadius: 0)
@@ -171,5 +208,16 @@ extension MapViewController {
 extension MapViewController: BottomBarDelegate {
     func close() {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension MapViewController: CompanionMapDelegate {
+    func updated(location: CLLocation) {
+        //lastLocation = location
+    }
+    
+    func direction(step: MKRoute.Step) {
+        print(step.instructions)
+        topBar.instructionLabel.text = step.instructions
     }
 }

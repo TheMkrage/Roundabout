@@ -149,6 +149,7 @@ class DesignViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         waypoints = []
+        submitButton.isHidden = true
         tableView.reloadData()
     }
     
@@ -206,13 +207,14 @@ class DesignViewController: UIViewController {
     }
     
     @objc func generate(_ sender: UIButton) {
-        waypoints = []
+        submitButton.isHidden = true
+        self.waypoints = []
+        self.tableView.reloadData()
         WaypointStore.shared.get(categories: selectedTags, startingPoint: lastLocation.coordinate, distance: distance) { (waypoints) in
             self.waypoints = waypoints
             self.tableView.reloadData()
+            self.submitButton.animateFromBottom(superView: self.view)
         }
-        
-        submitButton.animateFromBottom(superView: self.view)
     }
     
     @objc func start(_ sender: UIButton) {

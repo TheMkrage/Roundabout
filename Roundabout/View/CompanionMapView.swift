@@ -9,8 +9,14 @@
 import UIKit
 import MapKit
 
+protocol CompanionMapDelegate: class {
+    func updated(location: CLLocation)
+    func direction(step: MKRoute.Step)
+}
+
 class CompanionMapView: UIView {
 
+    weak var delegate: CompanionMapDelegate?
     lazy var mapView: MKMapView = {
         let m = MKMapView()
         m.translatesAutoresizingMaskIntoConstraints = false
@@ -98,6 +104,7 @@ class CompanionMapView: UIView {
             coordinateArray.append(coordinate)
         }
         
+        var hasSentStep = false
         for i in 0..<coordinateArray.count - 1 {
             let src = coordinateArray[i]
             let dst = coordinateArray[i + 1]
@@ -113,6 +120,13 @@ class CompanionMapView: UIView {
                 guard let route = response?.routes.first else {
                     return
                 }
+                for step in route.steps {
+                    if step.instructions != "" && !hasSentStep {
+                        self.delegate?.direction(step: step)
+                        hasSentStep = true
+                    }
+                }
+                
                 self.mapView.addOverlay(route.polyline)
             }
         }
@@ -124,6 +138,7 @@ class CompanionMapView: UIView {
             locationManager.requestAlwaysAuthorization()
             locationManager.distanceFilter = 50
             locationManager.startUpdatingLocation()
+            locationManager.startUpdatingHeading()
         }
     }
     
@@ -145,15 +160,19 @@ extension CompanionMapView: CLLocationManagerDelegate {
         guard let newLocation = locations.first else {
             return
         }
+        delegate?.updated(location: newLocation)
         let region = MKCoordinateRegion(center: newLocation.coordinate, latitudinalMeters: self.distanceSpan, longitudinalMeters: self.distanceSpan)
         mapView.setRegion(region, animated: true)
         mapView.showsUserLocation = true
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        //print("newHEADING: \(newHeading)")
     }
 }
 
 extension CompanionMapView: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        print(overlay)
         if overlay is MKPolyline {
             let polylineRenderer = MKPolylineRenderer(overlay: overlay)
             polylineRenderer.strokeColor = UIColor.init(named: "health")
@@ -163,11 +182,10 @@ extension CompanionMapView: MKMapViewDelegate {
         return MKOverlayRenderer(overlay: overlay)
     }
     
-    func mapView(_ mapView: MKMapView, didAdd renderers: [MKOverlayRenderer]) {
-        print("added")
-    }
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
         var annotationView = MKMarkerAnnotationView()
         annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "a")
         return annotationView

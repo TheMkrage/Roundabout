@@ -70,6 +70,7 @@ extension CLLocation {
         let lat2 = destinationLocation.coordinate.latitude.degreesToRadians
         let lon2 = destinationLocation.coordinate.longitude.degreesToRadians
         
+        //print("doing math with \(lat1), \(lon1) and \(lat2), \(lon2)")
         let dLon = lon2 - lon1
         
         let y = sin(dLon) * cos(lat2)

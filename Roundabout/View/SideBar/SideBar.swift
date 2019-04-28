@@ -61,6 +61,7 @@ class SideBar: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = frame.width / 2.0
+        setNeedsDisplay()
     }
     
     override func updateConstraints() {
@@ -77,19 +78,19 @@ class SideBar: UIView {
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
-        
+        super.draw(rect)
         let percentHeight = rect.height * percent
-        let height = rect.height - percentHeight
+        let yCord = rect.height - percentHeight
         let bitmojiWidth: CGFloat = 50.0
         let bitmojiX: CGFloat = rect.midX - CGFloat(bitmojiWidth/2.0)
-        bitmoji.frame = CGRect(x: bitmojiX, y: height - CGFloat(bitmojiWidth/2.0), width: bitmojiWidth, height: bitmojiWidth)
+        bitmoji.frame = CGRect(x: bitmojiX, y: yCord - CGFloat(bitmojiWidth/2.0), width: bitmojiWidth, height: bitmojiWidth)
         
         // draw filled portion
         let bgPath = UIBezierPath(roundedRect: rect, cornerRadius: layer.cornerRadius)
         UIColor.init(named: "bg")?.setFill()
         bgPath.fill()
         
-        let path = UIBezierPath(roundedRect: CGRect(x: 0.0, y: rect.height - percentHeight, width: rect.width, height: percentHeight), cornerRadius: layer.cornerRadius)
+        let path = UIBezierPath(roundedRect: CGRect(x: 0.0, y: yCord, width: rect.width, height: percentHeight), cornerRadius: layer.cornerRadius)
         UIColor.init(named: "health")?.setFill()
         path.fill()
     }
