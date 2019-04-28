@@ -91,3 +91,15 @@ extension Double {
         return (self * divisor).rounded() / divisor
     }
 }
+
+extension UIView {
+    func animateFromBottom(superView: UIView) {
+        let distanceBelowToOffscreen = UIScreen.main.bounds.maxY - frame.minY + frame.height
+        transform = CGAffineTransform(translationX: 0, y: distanceBelowToOffscreen)
+        isHidden = false
+        UIView.animate(withDuration: 1.0, delay: 0.5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: {
+            self.transform = CGAffineTransform.identity
+        })
+    }
+}
+

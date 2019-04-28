@@ -65,6 +65,7 @@ class ViewController: UIViewController {
         topBar.instructionLabel.text = "Turn right on Broadway Ave"
         topBar.distanceLabel.text = "69 Feet"
         
+        bottomBar.delegate = self
         bottomBar.destinationLabel.text = "Joe's Magic Coffee"
         bottomBar.timeLabel.text = "About 10 min away"
         
@@ -154,5 +155,11 @@ extension ViewController {
         node.geometry?.materials = [material]
         node.position = SCNVector3(0, 1, 0)
         return node
+    }
+}
+
+extension ViewController: BottomBarDelegate {
+    func close() {
+        self.dismiss(animated: true, completion: nil)
     }
 }

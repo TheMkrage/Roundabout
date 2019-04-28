@@ -9,6 +9,10 @@
 import UIKit
 import Anchorage
 
+protocol BottomBarDelegate: class {
+    func close()
+}
+
 class BottomBar: UIView {
     
     var destinationLabel: UILabel = {
@@ -30,8 +34,11 @@ class BottomBar: UIView {
         b.setTitleColor(.black, for: .normal)
         b.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 14.0)
         b.setTitle("X", for: .normal)
+        b.addTarget(self, action: #selector(close), for: .touchUpInside)
         return b
     }()
+    
+    weak var delegate: BottomBarDelegate?
     
     var didSetConstraints = false
     
@@ -76,5 +83,9 @@ class BottomBar: UIView {
         timeLabel.topAnchor == destinationLabel.bottomAnchor + 2
         timeLabel.leadingAnchor == destinationLabel.leadingAnchor
         timeLabel.bottomAnchor == safeAreaLayoutGuide.bottomAnchor - 5
+    }
+    
+    @objc func close() {
+        delegate?.close()
     }
 }

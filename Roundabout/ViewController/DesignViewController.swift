@@ -70,12 +70,13 @@ class DesignViewController: UIViewController {
         let x = UILabel()
         x.textColor = UIColor.init(named: "textColor")
         x.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
-        x.text = "2.0 mi"
+        x.text = "4.50 mi"
         return x
     }()
     
     lazy var slider: UISlider = {
         let s = UISlider()
+        s.setValue(0.5, animated: false)
         s.tintColor = UIColor(named: "health")
         s.addTarget(self, action: #selector(sliderUpdated(_:)), for: .valueChanged)
         return s
@@ -100,6 +101,7 @@ class DesignViewController: UIViewController {
         t.dataSource = self
         t.delegate = self
         t.separatorStyle = .none
+        t.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 40.0, right: 0.0)
         return t
     }()
     
@@ -112,6 +114,7 @@ class DesignViewController: UIViewController {
         x.setAttributedTitle(attributedTitle, for: .normal)
         x.layer.cornerRadius = 20.0
         x.addTarget(self, action: #selector(start(_:)), for: .touchUpInside)
+        x.isHidden = true
         return x
     }()
     
@@ -128,6 +131,12 @@ class DesignViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(submitButton)
         setupConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        waypoints = []
+        tableView.reloadData()
     }
     
     private func setupConstraints() {
@@ -169,12 +178,15 @@ class DesignViewController: UIViewController {
     }
     
     @objc func generate(_ sender: UIButton) {
+        waypoints = []
         let w1 = Waypoint(name: "KRager", latitude: 0, longitude: 0, altitude: 0, percent: 0)
         let w2 = Waypoint(name: "Alfredo Coffee", latitude: 0, longitude: 0, altitude: 0, percent: 0)
         let w3 = Waypoint(name: "KRafdasfa dfsa fdsa fds fsd f sdfdsaf ger", latitude: 0, longitude: 0, altitude: 0, percent: 0)
         waypoints.append(w1)
         waypoints.append(w2)
         waypoints.append(w3)
+        
+        submitButton.animateFromBottom(superView: self.view)
         
         tableView.reloadData()
     }
