@@ -13,6 +13,7 @@ import CoreLocation
 import ARKit
 import Anchorage
 import SCSDKLoginKit
+import Presentr
 
 class MapViewController: UIViewController {
     
@@ -104,11 +105,14 @@ class MapViewController: UIViewController {
         for waypoint in waypoints {
             let coordinate = CLLocationCoordinate2D(latitude: waypoint.latitude, longitude: waypoint.longitude)
             
-            let location = CLLocation(coordinate: coordinate, altitude: 356.15)
+            let location = CLLocation(coordinate: coordinate, altitude: 398)
             let annotationNode = LocationNode.init(location: location)
             let node = getBox(image: UIImage(named: "Tile")!)
             annotationNode.addChildNode(node)
             sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: annotationNode)
+        }
+        DispatchQueue.main.async {
+            self.displaySnapChat()
         }
     }
     
@@ -175,6 +179,29 @@ class MapViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    
+    private func displaySnapChat() {
+
+        let alertViewController = UIAlertController(title: "You made it!", message: "Would you like to share the moment?", preferredStyle: .actionSheet)
+        
+        let snapchat = UIAlertAction(title: "Yes Please 🕶", style: .default) { (action) -> Void in
+            print("Deleted!")
+            let url = URL(string: "snapchat://")
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        }
+        
+        let no = UIAlertAction(title: "No Thanks", style: .cancel) { (action) -> Void in
+            print("Ok!")
+        }
+        
+        alertViewController.addAction(snapchat)
+        alertViewController.addAction(no)
+        show(alertViewController, sender: self)
+        /*
+        let presentr = Presentr(presentationType: .alert)
+        presentr.presentationType = .topHalf
+        customPresentViewController(presentr, viewController: alertViewController, animated: false)
+    */}
 }
 
 extension MapViewController {

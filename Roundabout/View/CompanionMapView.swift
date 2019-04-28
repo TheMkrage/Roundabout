@@ -160,6 +160,7 @@ extension CompanionMapView: CLLocationManagerDelegate {
         guard let newLocation = locations.first else {
             return
         }
+        print(newLocation.altitude)
         delegate?.updated(location: newLocation)
         let region = MKCoordinateRegion(center: newLocation.coordinate, latitudinalMeters: self.distanceSpan, longitudinalMeters: self.distanceSpan)
         mapView.setRegion(region, animated: true)
