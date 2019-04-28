@@ -20,6 +20,8 @@
 		7E04E55A22742BBB00113064 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E55922742BBB00113064 /* Extensions.swift */; };
 		7E04E55E2274F2F200113064 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E04E55D2274F2F200113064 /* MapKit.framework */; };
 		7E04E5612274FFC900113064 /* DesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E5602274FFC900113064 /* DesignViewController.swift */; };
+		7E04E563227516D900113064 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E04E562227516D900113064 /* LoginViewController.swift */; };
+		7E04E56522751C6700113064 /* Raleway-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E04E56422751C6100113064 /* Raleway-Regular.otf */; };
 		7EF23FA091CC8764014461DC /* Pods_Roundabout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF0D153D76086FA704CFBF5 /* Pods_Roundabout.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +43,8 @@
 		7E04E55922742BBB00113064 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7E04E55D2274F2F200113064 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		7E04E5602274FFC900113064 /* DesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignViewController.swift; sourceTree = "<group>"; };
+		7E04E562227516D900113064 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		7E04E56422751C6100113064 /* Raleway-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.otf"; sourceTree = "<group>"; };
 		DFF0D153D76086FA704CFBF5 /* Pods_Roundabout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Roundabout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -83,6 +87,7 @@
 				7E04E55F2274FFA800113064 /* ViewController */,
 				7E04E53A2272F47E00113064 /* AppDelegate.swift */,
 				7E04E53E2272F47E00113064 /* Main.storyboard */,
+				7E04E56422751C6100113064 /* Raleway-Regular.otf */,
 				7E04E5412272F48300113064 /* Assets.xcassets */,
 				7E04E5432272F48300113064 /* LaunchScreen.storyboard */,
 				7E04E5462272F48300113064 /* Info.plist */,
@@ -123,6 +128,7 @@
 			children = (
 				7E04E53C2272F47E00113064 /* ViewController.swift */,
 				7E04E5602274FFC900113064 /* DesignViewController.swift */,
+				7E04E562227516D900113064 /* LoginViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -212,6 +218,7 @@
 			files = (
 				7E04E5452272F48300113064 /* LaunchScreen.storyboard in Resources */,
 				7E04E5422272F48300113064 /* Assets.xcassets in Resources */,
+				7E04E56522751C6700113064 /* Raleway-Regular.otf in Resources */,
 				7E04E5402272F47E00113064 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,7 +236,13 @@
 				"${BUILT_PRODUCTS_DIR}/ARCL/ARCL.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Anchorage/Anchorage.framework",
+				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
+				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
 				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKBitmojiKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKCoreKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKCreativeKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Tags/Tags.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -237,7 +250,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARCL.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Anchorage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKBitmojiKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKCreativeKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Tags.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,6 +297,7 @@
 				7E04E54E227424E100113064 /* CompanionMapView.swift in Sources */,
 				7E04E5612274FFC900113064 /* DesignViewController.swift in Sources */,
 				7E04E53B2272F47E00113064 /* AppDelegate.swift in Sources */,
+				7E04E563227516D900113064 /* LoginViewController.swift in Sources */,
 				7E04E550227424EE00113064 /* TopBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

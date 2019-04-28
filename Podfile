@@ -13,4 +13,5 @@ target 'Roundabout' do
   pod 'Alamofire'
   pod 'Tags'
   pod 'Presentr'
+  pod 'SnapSDK'
 end

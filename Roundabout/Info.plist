@@ -27,8 +27,29 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>CFBundleURLSchemes</key>
+	<string>roundabout://map</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>themkrage.Roundabout</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>roundabout</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>snapchat</string>
+		<string>itms-apps</string>
+		<string>bitmoji-sdk</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MKDirectionsApplicationSupportedModes</key>
@@ -40,6 +61,19 @@
 	<string>CAn we use your camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>CAn we use your locaiton</string>
+	<key>SCSDKClientId</key>
+	<string>6274f740-3ba7-4788-b439-12ae93fff894</string>
+	<key>SCSDKRedirectUrl</key>
+	<string>roundabout://map</string>
+	<key>SCSDKScopes</key>
+	<array>
+		<string>https://auth.snapchat.com/oauth2/api/user.bitmoji.avatar</string>
+		<string>https://auth.snapchat.com/oauth2/api/user.display_name</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Raleway-Regular.otf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

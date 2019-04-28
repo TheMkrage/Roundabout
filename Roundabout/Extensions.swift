@@ -44,6 +44,14 @@ extension TagButton {
     }
 }
 
+extension UILabel {
+    func addCharactersSpacing(spacing:CGFloat, text:String) {
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(NSAttributedString.Key.kern, value: spacing, range: NSMakeRange(0, text.characters.count))
+        self.attributedText = attributedString
+    }
+}
+
 extension Int {
     var degreesToRadians: Double { return Double(self) * .pi / 180 }
 }

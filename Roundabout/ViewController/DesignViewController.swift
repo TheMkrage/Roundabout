@@ -62,6 +62,7 @@ class DesignViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         view.addSubview(interestLabel)
         view.addSubview(tagsView)
