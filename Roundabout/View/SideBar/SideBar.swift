@@ -11,7 +11,7 @@ import SCSDKLoginKit
 
 class SideBar: UIView {
     
-    var percent: CGFloat = 0.20
+    var percent: CGFloat = 0.02
     //var points = [Waypoint]()
 
     lazy var bitmoji: UIImageView = {

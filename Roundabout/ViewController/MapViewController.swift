@@ -57,12 +57,12 @@ class MapViewController: UIViewController {
         
         // Table Codes
         let exit = getBigBox(image: UIImage.init(named: "Tile")!)
-        exit.position = SCNVector3(-32, 1, -45)
+        exit.position = SCNVector3(-20, 1, 8)
         sceneLocationView.scene.rootNode.addChildNode(exit)
         let exitWaypoint = Waypoint(name: "Exit", latitude: 32.88580559622921, longitude: -117.2395439592874, percent: 0.10)
         waypoints.append(exitWaypoint)
         
-        let elevator = getBigBox(image: UIImage.init(named: "Tile")!)
+        /*let elevator = getBigBox(image: UIImage.init(named: "Tile")!)
         elevator.position = SCNVector3(-20, 1, -30)
         sceneLocationView.scene.rootNode.addChildNode(elevator)
         let elevatorWaypoint = Waypoint(name: "Elevator", latitude: 32.88605641907343, longitude: -117.23952412679434, percent: 0.10)
@@ -72,7 +72,7 @@ class MapViewController: UIViewController {
         bathroom.position = SCNVector3(-15, 1, -40)
         sceneLocationView.scene.rootNode.addChildNode(bathroom)
         let bathroomWaypoint = Waypoint(name: "Bathroom", latitude: 32.88632847330899, longitude: -117.23952955036582, percent: 0.10)
-        waypoints.append(bathroomWaypoint)
+        waypoints.append(bathroomWaypoint)*/
         
         timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         
@@ -109,11 +109,11 @@ class MapViewController: UIViewController {
             let annotationNode = LocationNode.init(location: location)
             let node = getBox(image: UIImage(named: "Tile")!)
             annotationNode.addChildNode(node)
-            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: annotationNode)
+            //sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: annotationNode)
         }
-        DispatchQueue.main.async {
-            self.displaySnapChat()
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
+//            self.displaySnapChat()
+//        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -246,5 +246,6 @@ extension MapViewController: CompanionMapDelegate {
     func direction(step: MKRoute.Step) {
         print(step.instructions)
         topBar.instructionLabel.text = step.instructions
+        /*topBar.instructionLabel.text = "Destination on your left"*/
     }
 }
